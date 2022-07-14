@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{%block title%}sales {%endblock%}
+ 
+{% block body%}
+  <!-- navbar end -->
+
+
+  <!--Main invesntory container-->
+
+  <br>
+  <br>
+
+
+  <div class="container ">
+
+
+    <div class="row">
+
+
+      <div class="col-lg-3 col-md-12">
+        <nav class="navbar1 dropdown navbar-expand-lg ">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a id="menu1" class="nav-link active" aria-current="page" href="#">
+                <h3><i class="fa fa-bars" aria-hidden="true"></i> Nav Menu</h3>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a id="menu1" class="nav-link" href="/dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i>
+                Dashbaord</a>
+            </li>
+            <li class="nav-item">
+              <a id="menu1" class="nav-link" href="/inventory"><i class="fa fa-database" aria-hidden="true"></i>
+                Inventories</a>
+            </li>
+            <li class="nav-item">
+              <a id="menu1" class="nav-link " href="/sales"><i class="fa fa-money" aria-hidden="true"></i> Sales</a>
+            </li>
+            <li class="nav-item">
+              <a id="menu1" class="nav-link " href="/inventory"><i class="fa fa-dropbox" aria-hidden="true"></i> Stock</a>
+            </li>
+            <li class="nav-item">
+              <a id="menu1" class="nav-link " href="/"><i class="fa fa-user" aria-hidden="true"></i> Users</a>
+
+            </li>
+
+          </ul>
+
+      </div>
+
+      <div class="col-lg-9 col-md-12">
+
+       
+        <table id="tabletwo" class="table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">ProductID</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Revenue</th>
+              <th scope="col">Created_Date</th>
+              <th scope="col">Category</th>
+              <th scope="col">Product Name </th>
+
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+
+            {% for sales in moved %}
+            <tr>
+
+              <td>{{sales[0]}}</td>
+              <td>{{sales[1]}}</td>
+              <td>{{sales[2]}}</td>
+              <td>{{sales[3]}}</td>
+              <td>{{sales[4]}}</td>
+              <td>{{sales[5]}}</td>
+              <td>{{sales[6]}}</td>
+            </tr>
+            {%endfor%}
+          </tbody>
+        </table>
+      </div>
+
+
+    </div>
+
+  </div>
+
+ 
+
+  <!--End of main container-->
+
+
+  {% endblock %}

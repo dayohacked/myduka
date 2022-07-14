@@ -1,0 +1,292 @@
+{% extends "layout.html" %}
+
+{%block title%}inventory {%endblock%}
+{% block body%}
+
+<div class="container ">
+
+
+  <div class="row">
+
+
+    <div class="col-lg-3 col-md-12">
+      <nav class="navbar1 dropdown navbar-expand-lg ">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a id="menu1" class="nav-link active" aria-current="page" href="#">
+              <h3><i class="fa fa-bars" aria-hidden="true"></i> Nav Menu</h3>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a id="menu1" class="nav-link" href="/dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i>
+              Dashbaord</a>
+          </li>
+          <li class="nav-item">
+            <a id="menu1" class="nav-link" href="/inventory"><i class="fa fa-database" aria-hidden="true"></i>
+              Inventories</a>
+          </li>
+          <li class="nav-item">
+            <a id="menu1" class="nav-link " href="/sales"><i class="fa fa-money" aria-hidden="true"></i> Sales</a>
+          </li>
+          <li class="nav-item">
+            <a id="menu1" class="nav-link " href="/stock"><i class="fa fa-dropbox" aria-hidden="true"></i>
+              Stock</a>
+          </li>
+          <li class="nav-item">
+            <a id="menu1" class="nav-link " href="/"><i class="fa fa-user" aria-hidden="true"></i> Users</a>
+
+          </li>
+
+        </ul>
+
+    </div>
+
+    <div class="col-lg-9 col-md-12">
+
+      <!-- Modal starts here -->
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+        data-bs-whatever="@fat"><i class="fa fa-plus"></i> Add New item</button>
+
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add items</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="{{ url_for('add_product') }}" method="POST">
+                <div class="form-group">
+                  <label for="product_name">Product Name</label>
+                  <input class="form-control" type="text" name="product_name" placeholder="Product Name" required>
+                </div>
+                <div class="form-group">
+                  <label for="buying_price">Buying Price</label>
+                  <input class="form-control" type="text" name="buying_price" placeholder="Buying Price" required>
+                </div>
+                <div class="form-group">
+                  <label for="buying_price">Quantity</label>
+                  <input class="form-control" type="text" name="quantity" placeholder="Quantity" required>
+                  <!-- <label for="recipient-name" class="col-form-label">Select Category:</label>
+                    <select class="form-control" id="list2" name="category">
+                      <option value="product">Product</option>
+                      <option value="service">Service</option>
+                    </select> -->
+                </div>
+                <div class="form-group">
+                  <label for="selling_price">Selling price</label>
+                  <input class="form-control" type="text" name="selling_price" placeholder="Selling Price" required>
+                </div>
+                <button type="submit" class="btn btn-md btn-success">Submit</button>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save Changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Modal with select options ends here--->
+
+      <br>
+      <br>
+      <br>
+      <!-- Add invesntory table -->
+
+      <table id="tableone" class="table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Product_Name</th>
+            <th scope="col">B.Price</th>
+            <th scope="col">S.Price</th>
+            <th scope="col">Quantity</th>
+            <!-- <th scope="col">Category</th> -->
+            <th scope="col">Sale <br><i class="fa fa-usd"></i></th>
+            <th scope="col">Edit <br><i class="fa fa-edit"></i></th>
+            <th scope="col">View <br><i class="fa fa-edit"></i></th>
+            <th scope="col">Delete <br><i class="fa fa-trash" aria-hidden="true"></i></th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+
+          {% for inventory in products %}
+
+          <tr>
+
+            <td>{{inventory[0]}}</td>
+            <td>{{inventory[1]}}</td>
+            <td>{{inventory[2]}}</td>
+            <td>{{inventory[3]}}</td>
+            <td>{{inventory[4]}}</td>
+            <!-- <td>{{inventory[5]}}</td> -->
+
+
+            <td>
+
+              <!-- Button trigger modal for sale -->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#SalesModal{{inventory[0]}}">
+                Sale <i class="fa fa-usd"></i>
+              </button>
+
+              <!-- Modal  sale-->
+              <div class="modal fade" id="SalesModal{{inventory[0]}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <div class="modal-header">
+
+                      <h5 class="modal-title" id="exampleModalLabel">Sale for {{inventory[1]}}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                    </div>
+                    <form action="/make_sale" method="post">
+                      <div class="modal-body">
+
+                        <label for="">Product_ID</label>
+                        <input class="form-control" type="text" name="productID" value="{{inventory[0]}}" required
+                          readonly>
+
+                        <label for="">quantity</label>
+                        <input class="form-control" type="text" name="quantity" placeholder="Enter quantity" required>
+
+                        <!-- <label for="">category</label>
+                          <input class="form-control" type="text" name="category" placeholder="Enter category" required> -->
+                        <select name="category"  placeholder="Enter category" class="form-select"
+                          aria-label="Default select example" required>
+                          <option selected disabled >Select Category</option>
+                          <option value="Food" >Food</option>
+                          <option value="Electronics">Electronics</option>
+                          <option value="Others">Others</option>
+                        </select>
+                        <label for="">revenue</label>
+                        <input class="form-control" type="text" name="revenue" placeholder="revenue" required>
+
+                      </div>
+
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">submit</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </td>
+            <td>
+
+              <!-- Button trigger modal edit inventory sales-->
+              <button type="button" class="btn btn-primary" style="background-color:rgb(62, 109, 62);"
+                data-bs-toggle="modal" data-bs-target="#EditModal{{inventory[0]}}">
+                Add <i class="fa fa-plus"></i>
+              </button>
+
+              <!-- Modal Edit sales -->
+              <!-- add the product ID to make a unique modal for each product clicked -->
+              <div class="modal fade" id="EditModal{{inventory[0]}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Add Inventory {{inventory[1]}}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form action="/add_product" method="POST">
+                        <label for="product_name">Product ID</label>
+                        <input class="form-control" type="text" name="product_name" placeholder="Product Name"
+                          value="{{inventory[0]}}" readonly required>
+
+                        <label for="product_name">Product Name</label>
+                        <input class="form-control" type="text" name="product_name" placeholder="Product Name"
+                          value="{{inventory[1]}}" readonly required>
+
+                        <label for="buying_price">Buying Price</label>
+                        <input class="form-control" type="text" name="buying_price" placeholder="Buying Price"
+                          value="{{inventory[2]}}" readonly required>
+
+                        <label for="selling_price">Selling price</label>
+                        <input class="form-control" type="text" name="selling_price" placeholder="Selling Price"
+                          value="{{inventory[3]}}" readonly required>
+
+                        <label for="quantity">Quantity</label>
+                        <input class="form-control" type="text" name="quantity" placeholder="Quantity" required>
+
+                        <!-- <label for="category">Category</label>
+                        <input class="form-control" type="text" name="category" placeholder="Category"
+                          value="{{inventory[5]}}" readonly required> -->
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </td>
+
+            <td>
+
+
+              <a class="btn btn-primary" href="view_sale/{{ inventory[0] }}" role="button">View Sale
+
+                <i class="fa fa-eye" aria-hidden="true"></i>
+              </a>
+
+
+            </td>
+
+            <td>
+              <!-- Button trigger modal delete sales-->
+              <button type="button" class="btn btn-primary" style="background-color: red;" data-bs-toggle="modal"
+                data-bs-target="#DeleteModal{{inventory[0]}}">
+                Delete <i class="fa fa-trash"></i>
+              </button>
+
+              <!-- Modal Delete sales -->
+              <!-- add the product ID to make a unique modal for each product clicked -->
+              <div class="modal fade" id="DeleteModal{{inventory[0]}}" tabindex="-1" aria-labelledby="DeleteModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="DeleteModalLabel">Confirm to delete sale for: {{inventory[1]}}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form action="/delete_product" method="post">
+                        <label for="product_name">Product ID</label>
+                        <input class="form-control" type="text" name="productID" placeholder="Product ID"
+                          value="{{inventory[0]}}" readonly required>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </td>
+          </tr>
+          {%endfor%}
+
+        </tbody>
+      </table>
+    </div>
+
+
+  </div>
+
+</div>
+
+{% endblock %}

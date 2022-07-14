@@ -1,0 +1,215 @@
+{% extends "layout.html" %}
+{%block title%}Dashboard {%endblock%}
+
+{% block body%}
+
+
+<div class="container ">
+
+
+  <div class="row">
+
+
+    <div class="col-lg-3 col-md-12">
+      <nav class="navbar1 dropdown navbar-expand-lg ">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a id="menu1" class="nav-link active" aria-current="page" href="#">
+              <h3><i class="fa fa-bars" aria-hidden="true"></i> Nav Menu</h3>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a id="menu1" class="nav-link" href="/index"><i class="fa fa-tachometer" aria-hidden="true"></i>
+              Dashbaord</a>
+          </li>
+          <li class="nav-item">
+            <a id="menu1" class="nav-link" href="/inventory"><i class="fa fa-database" aria-hidden="true"></i>
+              Inventories</a>
+          </li>
+          <li class="nav-item">
+            <a id="menu1" class="nav-link " href="/sales"><i class="fa fa-money" aria-hidden="true"></i> Sales</a>
+          </li>
+          <li class="nav-item">
+            <a id="menu1" class="nav-link " href="/inventory"><i class="fa fa-dropbox" aria-hidden="true"></i> Stock</a>
+          </li>
+          <li class="nav-item">
+            <a id="menu1" class="nav-link " href="/"><i class="fa fa-user" aria-hidden="true"></i> Users</a>
+
+          </li>
+
+        </ul>
+
+    </div>
+
+    <div class="col-lg-9 col-md-12">
+
+      <h3>Total Monthly Sales</h3>
+
+      <!-- Top container by 4-->
+      <div class="row">
+
+        <div class="col-lg-8 col-md-12">
+
+          <canvas id="lineChart" width="8" height="4">
+
+
+
+          </canvas>
+
+        </div>
+
+
+
+        <div class="col-lg-4 col-md-12">
+          <h4>Annual Revenue</h4>
+
+          <canvas id="pie-chart" width="800" height="450"></canvas>
+
+        </div>
+
+
+
+
+       
+
+      </div>
+
+
+      <h3>Total sales Per Product</h3>
+
+      <canvas id="bar-chart" width="43" height="22">
+
+      </canvas>
+
+
+
+    </div>
+
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
+
+
+
+<!-- pie chart here -->
+<script>
+  new Chart(document.getElementById("pie-chart"), {
+    type: 'pie',
+    data: {
+      labels: {{labels2 | safe }},
+      datasets: [{
+        label: "Annual Revenue",
+        backgroundColor: ["#3e95cd", "#8e5ea2"],
+        data: {{data2 | safe }}
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Store Performance'
+      }
+    }
+  });
+
+</script>
+<!-- pie chart ends here -->
+
+<!-- line chart -->
+<script>
+  new Chart(document.getElementById("lineChart"),
+    {
+      type: "line", data:
+      {
+
+        labels: {{ lables1 | safe}},
+    datasets: [{
+      label: 'Total Monthly Sales',
+      data: {{ data1 | safe }},
+    fill: false,
+    borderColor: 'rgb(75, 192, 192)',
+    tension: 0.1
+  }]
+}});
+
+</script>
+
+
+
+<!-- end line chart -->
+
+<script>
+  new Chart(document.getElementById("bar-chart"),
+    {
+      type: "bar", data:
+      {
+
+        // Safe converts the lits into Js compatible format
+        labels: {{ labels | safe}},
+    datasets: [{
+      label: 'Totals sales Per Product',
+      data: {{ data | safe}},
+    // labels: ["Mon","Tues","Wed","Thurs","Frid","Sat","Sun"],
+    // datasets: [{
+    //   label: 'Bags of Maize',
+    //   // data: [65, 59, 80, 81, 56, 55, 40],
+    backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)',
+      'rgba(255, 205, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(201, 203, 207, 0.2)'
+    ],
+    borderColor: [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)',
+      'rgb(255, 205, 86)',
+      'rgb(75, 192, 192)',
+      'rgb(54, 162, 235)',
+      'rgb(153, 102, 255)',
+      'rgb(201, 203, 207)'
+    ],
+    borderWidth: 1
+    }]
+  },
+    options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
+</script>
+
+<script>
+// pput a line graph
+
+
+
+</script>
+
+
+
+
+<!-- tests data -->
+<!-- <form action="/graphs" method="post">
+
+  {% for item in values %}
+  {{ item }},
+  {% endfor %}]
+
+</form> -->
+
+{% endblock %}
