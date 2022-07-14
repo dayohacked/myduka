@@ -11,7 +11,7 @@ from datetime import datetime
 # we create an object/variable tha will be used to access the methods
 # we add the _name_ argument so as to pass the context of the app
 app = Flask( __name__ )
-conn=psycopg2.connect(user="postgres",host="localhost", password="MANunited12#$",database="myduka",port="5432")
+conn=psycopg2.connect(user="postgres",host="localhost", password="",database="myduka",port="5432")
 # print(conn)
 db =conn.cursor()
 
